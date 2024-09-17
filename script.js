@@ -14,7 +14,7 @@ const copyBtn = document.querySelector('.password-output span');
 
 passwordLength.innerText = passwordLengthRange.value;
 
-passwordLengthRange.addEventListener('input', () => {
+passwordLengthRange.addEventListener('change', () => {
     passwordLength.innerText = passwordLengthRange.value;
 })
 
@@ -22,7 +22,7 @@ passwordLengthRange.addEventListener('input', () => {
 generateBtn.addEventListener('click', () => {    
     const passWordLength = passwordLengthRange.value;    
     const includeUpperCase = upperCaseElement.checked;
-    // console.log({includeUpperCase});
+    console.log({includeUpperCase});
     const includeNumbers = numbersElement.checked;
     const includeSymbols = symbolsElement.checked;
 
@@ -36,11 +36,8 @@ function generatePassword(passWordLength, includeUpperCase, includeNumbers, incl
     const lowercase = loopThroughASCIICodes(97, 122);
     const uppercase = loopThroughASCIICodes(65, 90);
     const numbers = loopThroughASCIICodes(48, 57);
-    const symbols = loopThroughASCIICodes(33, 47)
-    .concat(loopThroughASCIICodes(58, 64))
-    .concat(loopThroughASCIICodes(91, 96))
-    .concat(loopThroughASCIICodes(123, 126));    
-   
+    const symbols = loopThroughASCIICodes(33, 47).concat(loopThroughASCIICodes(58, 64)).concat(loopThroughASCIICodes(91, 96)).concat(loopThroughASCIICodes(123, 126));    
+   console.log({symbols});
     //By default set the lowercase character codes as default
     let charCodes = lowercase;
 
@@ -64,6 +61,7 @@ function generatePassword(passWordLength, includeUpperCase, includeNumbers, incl
     
     return array.join('')
 }
+
 
 //Function for producing all the needed ASCII codes
 function loopThroughASCIICodes (low, high){
@@ -92,7 +90,7 @@ function calculatePasswordStrength(password, passWordLength){
     const upperCaseCharacters = /[A-Z]/g;
     const numberCharacters = /[0-9]/g;
     const specialCharacters = /[^a-zA-Z0-9\s]/g;
-    const repeatedCharacters = /(.)\1/g;
+    
     if(passWordLength < 6){
         strength+=10;
     }
@@ -140,4 +138,18 @@ function calculatePasswordStrength(password, passWordLength){
     }
         
 }
+
+passwordDisplay.addEventListener('keyup', manualPasswordChange);
+
+function manualPasswordChange(e){
+    // console.log(e);
+    // console.log('Password Value: ' + e.target.value);
+    const manualPassword = e.target.value;
+    console.log(manualPassword);
+    console.log(manualPassword.length);
+    // alert('Manual Password');
+    calculatePasswordStrength(manualPassword, manualPassword.length)
+}
+
+
 
